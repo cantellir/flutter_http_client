@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:http/http.dart';
 import 'package:http_client/src/http_client.dart';
-import 'package:http_client/src/http_exceptions.dart';
+import 'package:http_client/src/http_errors.dart';
 
 class HttpClientImpl implements HttpClient {
   final Client client;
@@ -101,25 +101,24 @@ class HttpClientImpl implements HttpClient {
       case 204:
         return null;
       case 400:
-        throw HttpBadRequestException(
-            response.body.isEmpty ? null : response.body);
+        throw HttpBadRequestError(response.body.isEmpty ? null : response.body);
       case 401:
-        throw HttpUnauthorizedException();
+        throw HttpUnauthorizedError();
       case 403:
-        throw HttpForbiddenException();
+        throw HttpForbiddenError();
       case 404:
-        throw HttpNotFoundException();
+        throw HttpNotFoundError();
       case 500:
-        throw HttpServerException();
+        throw HttpServerError();
       default:
-        throw HttpUnexpectedException();
+        throw HttpUnexpectedError();
     }
   }
 
   void _handleException(Object exception) {
     if (exception is SocketException || exception is ClientException) {
-      throw HttpNetworkException();
+      throw HttpNetworkError();
     }
-    throw HttpUnexpectedException();
+    throw HttpUnexpectedError();
   }
 }
