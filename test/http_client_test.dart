@@ -11,7 +11,7 @@ import 'package:mocktail/mocktail.dart';
 class MockClient extends Mock implements Client {}
 
 void main() {
-  late MockClient client;
+  late Client client;
   late HttpClient sut;
   late String uri;
 
